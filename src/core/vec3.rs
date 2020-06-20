@@ -16,7 +16,7 @@ impl Vec3 {
 impl Add<Vec3> for &Vec3 {
   type Output = Vec3;
 
-  fn add(self, _rhs: Self) -> Self::Output {
+  fn add(self, _rhs: Vec3) -> Self::Output {
     Vec3::new(self.x + _rhs.x, self.y + _rhs.y, self.z + _rhs.z)
   }
 }
