@@ -1,4 +1,4 @@
-use std::ops::{Add, AddAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
 
 #[derive(Clone, Default, Debug, PartialEq)]
 struct Vec3 {
@@ -26,6 +26,22 @@ impl Sub for Vec3 {
   
   fn sub(self, _rhs: Self) -> Self::Output {
     Vec3::new(self.x - _rhs.x, self.y - _rhs.y, self.z - _rhs.z)
+  }
+}
+
+impl Mul<f64> for Vec3 {
+  type Output = Vec3;
+
+  fn mul(self, _rhs: f64) -> Self::Output {
+    Vec3::new(self.x * _rhs, self.y * _rhs, self.z * _rhs)
+  }
+}
+
+impl Div<f64> for Vec3 {
+  type Output = Vec3;
+
+  fn div(self, _rhs: f64) -> Self::Output {
+    self * (1.0 / _rhs)
   }
 }
 

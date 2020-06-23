@@ -15,4 +15,3 @@ name = "raytracing"
 path = "src/main.rs"
 
 [dependencies]
-
