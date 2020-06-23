@@ -1,4 +1,4 @@
-use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
 
 #[derive(Clone, Default, Debug, PartialEq)]
 struct Vec3 {
@@ -10,6 +10,27 @@ struct Vec3 {
 impl Vec3 {
   pub const fn new (x: f64, y: f64, z: f64) -> Self {
     Self { x, y, z }
+  }
+
+  // Get the squared length from the origin of coordinates
+  pub fn length_square(&self) -> f64 {
+    self.x * self.x + self.y * self.y + self.z * self.z
+  }
+
+  // Get the length from the origin of coordinates 
+  pub fn length(&self) -> f64 {
+    self.length_square().sqrt()
+  }
+
+  // Reverse the vector
+  pub fn reverse(&mut self) {
+    self.x = -self.x;
+    self.y = -self.y;
+    self.z = -self.z;
+  }
+  
+  pub fn get_reversed(&self) -> Self {
+    Self::new(-self.x, -self.y, -self.z )
   }
 }
 
@@ -92,5 +113,20 @@ mod test {
     let vec_to_sub = Vec3::new(3.0, 2.0, 1.0);
     vec -= vec_to_sub;
     assert_eq!(vec, Vec3::new(-2.0, 0.0, 2.0));
+  }
+
+  #[test]
+  fn test_length() {
+    let vec = Vec3::new(3.0, 4.0, 12.0);
+    assert_eq!(vec.length(), 13.0);
+  }
+
+  #[test]
+  fn test_reverse() {
+    let mut vec_to_reverse = Vec3::new(1.0, 0.0, -1.0);
+    vec_to_reverse.reverse();
+    assert_eq!(vec_to_reverse, Vec3::new(-1.0, 0.0, 1.0));
+    let vec_reversed = Vec3::new(2.0, 2.0, 2.0).get_reversed();
+    assert_eq!(vec_reversed, Vec3::new(-2.0, -2.0, -2.0));
   }
 }
