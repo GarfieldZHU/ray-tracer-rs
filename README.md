@@ -22,9 +22,9 @@ Refer to [Netpbm](https://en.wikipedia.org/wiki/Netpbm#File_formats) for example
 - [Cross product](https://en.wikipedia.org/wiki/Cross_product ) for vector
   - Algebraic
   
-  ![](https://wikimedia.org/api/rest_v1/media/math/render/svg/8e4d134fa6d725f5648e6dd39fb112a22a09d11f)
-  ![](https://wikimedia.org/api/rest_v1/media/math/render/svg/5664cca9afe2b7bcd3c5449c038f6257128b730f)
-  ![product](https://wikimedia.org/api/rest_v1/media/math/render/svg/c71d9a7826acac7affc19e813f6a8744a7d227b3)
+  If ![](https://wikimedia.org/api/rest_v1/media/math/render/svg/8e4d134fa6d725f5648e6dd39fb112a22a09d11f)  , 
+  where ![](https://wikimedia.org/api/rest_v1/media/math/render/svg/5664cca9afe2b7bcd3c5449c038f6257128b730f)  ,
+  then ![product](https://wikimedia.org/api/rest_v1/media/math/render/svg/c71d9a7826acac7affc19e813f6a8744a7d227b3)
   
   - Geometric
   
