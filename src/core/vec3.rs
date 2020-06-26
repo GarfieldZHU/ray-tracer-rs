@@ -32,6 +32,26 @@ impl Vec3 {
   pub fn get_reversed(&self) -> Self {
     Self::new(-self.x, -self.y, -self.z )
   }
+
+  /**
+   * dot product / scalar product for vector
+   * Refer to: https://en.wikipedia.org/wiki/Dot_product
+   **/
+  pub fn dot(u: Vec3, v: Vec3) -> f64 {
+    u.x * v.x + u.y * v.y + u.z * v.z
+  }
+
+  /**
+   * Cross product for vector
+   * Refer to: https://en.wikipedia.org/wiki/Cross_product 
+   * */
+  pub fn cross(u: Vec3, v: Vec3) -> Vec3 {
+    Vec3 {
+      x: u.y * v.z - u.z * v.y,
+      y: u.z * v.x - u.x * v.z,
+      z: u.x * v.y - u.y * v.x,
+    }
+  }
 }
 
 impl Add for Vec3 {
@@ -128,5 +148,19 @@ mod test {
     assert_eq!(vec_to_reverse, Vec3::new(-1.0, 0.0, 1.0));
     let vec_reversed = Vec3::new(2.0, 2.0, 2.0).get_reversed();
     assert_eq!(vec_reversed, Vec3::new(-2.0, -2.0, -2.0));
+  }
+
+  #[test]
+  fn test_dot_product() {
+    let u = Vec3::new(1.0, 2.0, 3.0); 
+    let v = Vec3::new(6.0, 3.0, 2.0);
+    assert_eq!(Vec3::dot(u, v), 18.0);
+  }
+
+  #[test]
+  fn test_cross_product() {
+    let u = Vec3::new(1.0, 2.0, 3.0); 
+    let v = Vec3::new(6.0, 3.0, 2.0);
+    assert_eq!(Vec3::cross(u, v), Vec3::new(-5.0, 16.0, -9.0));
   }
 }
