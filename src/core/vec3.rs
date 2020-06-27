@@ -1,7 +1,7 @@
 use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
 
 #[derive(Clone, Default, Debug, PartialEq)]
-struct Vec3 {
+pub struct Vec3 {
   pub x: f64,
   pub y: f64,
   pub z: f64,
@@ -37,7 +37,7 @@ impl Vec3 {
    * dot product / scalar product for vector
    * Refer to: https://en.wikipedia.org/wiki/Dot_product
    **/
-  pub fn dot(u: Vec3, v: Vec3) -> f64 {
+  pub fn dot(u: &Vec3, v: &Vec3) -> f64 {
     u.x * v.x + u.y * v.y + u.z * v.z
   }
 
@@ -45,7 +45,7 @@ impl Vec3 {
    * Cross product for vector
    * Refer to: https://en.wikipedia.org/wiki/Cross_product 
    * */
-  pub fn cross(u: Vec3, v: Vec3) -> Vec3 {
+  pub fn cross(u: &Vec3, v: &Vec3) -> Vec3 {
     Vec3 {
       x: u.y * v.z - u.z * v.y,
       y: u.z * v.x - u.x * v.z,
@@ -162,13 +162,13 @@ mod test {
   fn test_dot_product() {
     let u = Vec3::new(1.0, 2.0, 3.0); 
     let v = Vec3::new(6.0, 3.0, 2.0);
-    assert_eq!(Vec3::dot(u, v), 18.0);
+    assert_eq!(Vec3::dot(&u, &v), 18.0);
   }
 
   #[test]
   fn test_cross_product() {
     let u = Vec3::new(1.0, 2.0, 3.0); 
     let v = Vec3::new(6.0, 3.0, 2.0);
-    assert_eq!(Vec3::cross(u, v), Vec3::new(-5.0, 16.0, -9.0));
+    assert_eq!(Vec3::cross(&u, &v), Vec3::new(-5.0, 16.0, -9.0));
   }
-  
+}
