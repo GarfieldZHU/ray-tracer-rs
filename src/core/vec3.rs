@@ -52,6 +52,14 @@ impl Vec3 {
       z: u.x * v.y - u.y * v.x,
     }
   }
+
+  pub fn unit(self) -> Vec3 {
+    Vec3 {
+      x: self.x / self.length(),
+      y: self.y / self.length(),
+      z: self.z / self.length(),
+    }
+  }
 }
 
 impl Add for Vec3 {
@@ -163,4 +171,4 @@ mod test {
     let v = Vec3::new(6.0, 3.0, 2.0);
     assert_eq!(Vec3::cross(u, v), Vec3::new(-5.0, 16.0, -9.0));
   }
-}
+  
