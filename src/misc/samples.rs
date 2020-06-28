@@ -17,3 +17,8 @@ pub fn outputImage() -> () {
     }
   }
 }
+
+
+pub fn ray_to_scene() {
+  
+}
