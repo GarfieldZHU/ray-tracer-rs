@@ -1,6 +1,6 @@
 use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
 
-#[derive(Clone, Default, Debug, PartialEq)]
+#[derive(Clone, Copy, Default, Debug, PartialEq)]
 pub struct Vec3 {
   pub x: f64,
   pub y: f64,
@@ -83,6 +83,14 @@ impl Mul<f64> for Vec3 {
 
   fn mul(self, _rhs: f64) -> Self::Output {
     Vec3::new(self.x * _rhs, self.y * _rhs, self.z * _rhs)
+  }
+}
+
+impl Mul<Vec3> for f64 {
+  type Output = Vec3;
+
+  fn mul(self, _rhs: Vec3) -> Self::Output {
+    _rhs * self
   }
 }
 

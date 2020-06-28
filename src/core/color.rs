@@ -1,3 +1,4 @@
+use std::ops::{Add, Mul};
 
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct Color {
@@ -7,12 +8,12 @@ pub struct Color {
 }
 
 impl Color {
-  pub const fn new(r: f64, g: f64, b: f64) -> Self {
+  pub fn new(r: f64, g: f64, b: f64) -> Self {
     Self { r, g, b }
   }
 
-  pub const fn newi(r: u8, g: u8, b: u8) -> Self {
-    Self { r: r as f64, g: g as f64, b: b as f64 }
+  pub fn newi(r: u8, g: u8, b: u8) -> Self {
+    Self { r: (r as f64) / 255.0, g: (g as f64) / 255.0, b: (b as f64) / 255.0}
   }
 }
 
@@ -28,6 +29,29 @@ impl From<(f64, f64, f64)> for Color {
   }
 }
 
+impl Add<Self> for Color {
+  type Output = Color;
+
+  fn add(self, _rhs: Self) -> Self::Output {
+    Color::new(self.r + _rhs.r, self.g + _rhs.g, self.b + _rhs.b)
+  }
+}
+
+impl Mul<f64> for Color {
+  type Output = Color;
+
+  fn mul(self, _rhs: f64) -> Self::Output {
+    Color::new(self.r * _rhs, self.g * _rhs, self.b * _rhs)
+  }
+}
+
+impl Mul<Color> for f64 {
+  type Output = Color;
+
+  fn mul(self, _rhs: Color) -> Self::Output {
+    _rhs * self
+  }
+}
 
 
 #[cfg(test)]
@@ -36,8 +60,8 @@ mod test {
 
   #[test]
   fn test_color() {
-    let c = Color::from((255, 0, 120));
-    let d = Color::new(255.0, 0.0, 120.0);
+    let c = Color::from((255, 0, 255));
+    let d = Color::new(1.0, 0.0, 1.0);
 
     assert_eq!(c, d);
   }
