@@ -2,6 +2,12 @@ use super::vec3::Vec3;
 
 pub type Point3 = Vec3;
 
+impl std::fmt::Display for Point3 {
+  fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    write!(f, "(x: {}, y: {}, z: {})", self.x, self.y, self.z)
+  }
+}
+
 #[cfg(test)]
 mod test {
   use super::Point3;
