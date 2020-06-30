@@ -102,6 +102,14 @@ impl Div<f64> for Vec3 {
   }
 }
 
+impl Div<i32> for Vec3 {
+  type Output = Vec3;
+
+  fn div(self, _rhs: i32) -> Self::Output {
+    self * (1.0 / _rhs as f64)
+  }
+}
+
 impl AddAssign for Vec3 {
   fn add_assign(&mut self, _rhs: Self) {
     self.x += _rhs.x;

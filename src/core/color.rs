@@ -15,6 +15,10 @@ impl Color {
   pub fn newi(r: u8, g: u8, b: u8) -> Self {
     Self { r: (r as f64) / 255.0, g: (g as f64) / 255.0, b: (b as f64) / 255.0}
   }
+
+  pub fn write_color(&self) {
+    println!("{0} {1} {2}", (255.999*self.r) as u32, (255.999*self.g) as u32, (255.999*self.b) as u32);
+  }
 }
 
 impl From<(u8, u8, u8)> for Color {
