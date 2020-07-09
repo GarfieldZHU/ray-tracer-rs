@@ -10,11 +10,15 @@ pub struct Sphere {
 }
 
 impl Sphere {
+  pub const fn new(center: Point3, radius: f64) -> Self {
+    Sphere { center, radius }
+  }
+
   /**
    * If the ray hit the area of the sphere.
    * We say the ray cutting the surface of sphere does not hit (able to pass through)
    * */
-  fn hit(&self, ray: &Ray) -> bool {
+  pub fn hit(&self, ray: &Ray) -> bool {
     let oc = ray.origin - self.center;
     let a = ray.direction.length_square();
     let b = 2.0 * Vec3::dot(&oc, &(ray.direction));
@@ -32,7 +36,6 @@ mod tests {
   use super::Point3;
   use super::Sphere;
   
-
   #[test]
   fn test_hit() {
     let s = Sphere {center: Point3::new(0.0, 0.0, 0.0), radius: 1.0};
