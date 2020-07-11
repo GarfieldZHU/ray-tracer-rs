@@ -7,15 +7,15 @@ use crate::core::{
 use crate::geometry::sphere::Sphere;
 
 pub fn ray_color(r: &Ray) -> Color {
-  if (Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5).hit(r)) {
+  if (Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5).is_hitten(r)) {
     Color::new(1.0, 0.0, 0.0)
   } else {
     let unit_direction: Vec3 = r.direction.unit();
     let t = (unit_direction.y + 1.0) * 0.5;
     (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
   }
-  
 }
+
 
 
 #[cfg(test)]
