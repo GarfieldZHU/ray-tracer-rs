@@ -10,6 +10,11 @@ use std::io::stderr;
 const IMAGE_WIDTH: u32 =256;
 const IMAGE_HEIGHT: u32 =256;
 
+pub enum SceneCase {
+  RAY_SPHERE_SCENE,
+  SHADING_WITH_NORMAL_SCENE,
+}
+
 pub fn outputImage() -> () {
   // PPM meta
   println!("P3\n{0} {1}\n255", IMAGE_WIDTH, IMAGE_HEIGHT);
@@ -28,7 +33,7 @@ pub fn outputImage() -> () {
 }
 
 
-pub fn ray_to_scene() {
+pub fn ray_to_scene(scene: SceneCase) {
   let aspect_ratio = 16.0 / 9.0;
   let image_width = 384;
   let image_height = (image_width as f64 / aspect_ratio) as u32;
@@ -52,7 +57,12 @@ pub fn ray_to_scene() {
       let u = i as f64 / ((image_width-1) as f64);
       let v = j as f64 / ((image_height-1) as f64);
       let r = Ray::new(origin, lower_left_corner + u*horizontal + v*vertical - origin);
-      let pixel_color = utils::ray_color(&r);
+      let pixel_color = match scene {
+        SceneCase::RAY_SPHERE_SCENE => utils::ray_color(&r),
+        SceneCase::SHADING_WITH_NORMAL_SCENE => utils::shading_ray_color(&r),
+
+      };
+      
       pixel_color.write_color();
     }
   }

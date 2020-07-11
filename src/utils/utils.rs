@@ -16,7 +16,18 @@ pub fn ray_color(r: &Ray) -> Color {
   }
 }
 
-
+pub fn shading_ray_color(r: &Ray) -> Color {
+  let s = Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5);
+  let mut t: f64 = s.hit_value(r);
+  if (t > 0.0) {
+    let N: Vec3 = (r.at(t) - Vec3::new(0.0, 0.0, -1.0)).unit();
+    0.5 * Color::new(N.x + 1.0, N.y + 1.0, N.z + 1.0)
+  } else {
+    let unit_direction: Vec3 = r.direction.unit();
+    t = 0.5 * (unit_direction.y + 1.0); 
+    (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
+  }
+}
 
 #[cfg(test)]
 mod test {
