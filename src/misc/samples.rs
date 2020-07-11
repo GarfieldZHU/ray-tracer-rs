@@ -2,20 +2,18 @@ use crate::core::{
   vec3::Vec3,
   point3::Point3,
   ray::Ray,
-  color::Color,
 };
 use crate::utils::utils;
-use std::io::stderr;
 
 const IMAGE_WIDTH: u32 =256;
 const IMAGE_HEIGHT: u32 =256;
 
 pub enum SceneCase {
-  RAY_SPHERE_SCENE,
-  SHADING_WITH_NORMAL_SCENE,
+  RaySphereScene,
+  ShadingWithNormalScene,
 }
 
-pub fn outputImage() -> () {
+pub fn output_image() -> () {
   // PPM meta
   println!("P3\n{0} {1}\n255", IMAGE_WIDTH, IMAGE_HEIGHT);
   for j in (0..IMAGE_HEIGHT).rev() {
@@ -58,8 +56,8 @@ pub fn ray_to_scene(scene: SceneCase) {
       let v = j as f64 / ((image_height-1) as f64);
       let r = Ray::new(origin, lower_left_corner + u*horizontal + v*vertical - origin);
       let pixel_color = match scene {
-        SceneCase::RAY_SPHERE_SCENE => utils::ray_color(&r),
-        SceneCase::SHADING_WITH_NORMAL_SCENE => utils::shading_ray_color(&r),
+        SceneCase::RaySphereScene => utils::ray_color(&r),
+        SceneCase::ShadingWithNormalScene => utils::shading_ray_color(&r),
 
       };
       

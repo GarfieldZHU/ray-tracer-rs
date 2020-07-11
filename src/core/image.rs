@@ -1,7 +1,4 @@
-struct image {
+struct Image {
 
 }
 
-fn main() {
-  println!("hello");
-}

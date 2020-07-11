@@ -37,7 +37,7 @@ impl Sphere {
     let b: f64 = 2.0 * Vec3::dot(&oc, &(ray.direction));
     let c: f64 = Vec3::dot(&oc, &oc) - self.radius * self.radius;
     let discriminant: f64 = b * b - 4.0 * a * c;
-    if (discriminant < 0.0) {
+    if discriminant < 0.0 {
       -1.0
     } else {
       (-b - discriminant.sqrt() ) / (2.0 * a)
