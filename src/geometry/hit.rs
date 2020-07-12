@@ -6,12 +6,11 @@ use crate::core::{
 
 
 pub struct HitRecord {
-  point: Point3,
-  normal: Vec3,
-  t: f64,
+  pub point: Point3,
+  pub normal: Vec3,
+  pub t: f64,
 }
 
-
-trait Hittable {
-  fn hit(r: &Ray, t_min: f64, t_max: f64, record: &HitRecord);
+pub trait Hittable {
+  fn hit(&self, ray: &Ray, t_min: f64, t_max: f64, record: &mut HitRecord) -> bool;
 }

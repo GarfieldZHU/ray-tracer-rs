@@ -4,6 +4,8 @@ use crate::core::{
   vec3::Vec3,
 };
 
+use super::hit::{HitRecord, Hittable};
+
 pub struct Sphere {
   center: Point3,
   radius: f64,
@@ -45,6 +47,34 @@ impl Sphere {
   }
 }
 
+impl Hittable for Sphere {
+  fn hit(&self, ray: &Ray, t_min: f64, t_max: f64, record: &mut HitRecord) -> bool {
+    let oc: Vec3 = ray.origin - self.center;
+    let a: f64 = ray.direction.length_square();
+    let half_b: f64 = Vec3::dot(&oc, &(ray.direction));
+    let c: f64 = Vec3::dot(&oc, &oc) - self.radius * self.radius;
+    let discriminant: f64 = half_b * half_b - a * c;
+
+    if discriminant > 0.0 {
+      let root: f64 = discriminant.sqrt();
+      let solution_1: f64 = (-half_b - root) / a;
+      if solution_1 < t_max && solution_1 > t_min {
+        record.t = solution_1;
+        record.point = ray.at(record.t);
+        record.normal = (record.point - self.center) / self.radius;
+        return true;
+      }
+      let solution_2: f64 = (-half_b + root) / a;
+      if solution_2 < t_max && solution_2 > t_min {
+        record.t = solution_2;
+        record.point = ray.at(record.t);
+        record.normal = (record.point - self.center) / self.radius;
+        return true;
+      }
+    } 
+    false
+  }
+}
 
 #[cfg(test)]
 mod tests {
