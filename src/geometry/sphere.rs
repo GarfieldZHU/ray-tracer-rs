@@ -34,13 +34,13 @@ impl Sphere {
   pub fn hit_value(&self, ray: &Ray) -> f64 {
     let oc: Vec3 = ray.origin - self.center;
     let a: f64 = ray.direction.length_square();
-    let b: f64 = 2.0 * Vec3::dot(&oc, &(ray.direction));
+    let half_b: f64 = Vec3::dot(&oc, &(ray.direction));
     let c: f64 = Vec3::dot(&oc, &oc) - self.radius * self.radius;
-    let discriminant: f64 = b * b - 4.0 * a * c;
+    let discriminant: f64 = half_b * half_b - a * c;
     if discriminant < 0.0 {
       -1.0
     } else {
-      (-b - discriminant.sqrt() ) / (2.0 * a)
+      (-half_b - discriminant.sqrt() ) / a
     }
   }
 }
