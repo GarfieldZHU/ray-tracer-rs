@@ -40,6 +40,27 @@ impl Debug for HittableList {
   }
 }
 
+impl HittableList {
+  pub fn new() -> Self {
+    HittableList {
+      objects: Vec::new(),
+    }
+  }
+
+  pub fn add_boxed(&mut self, object: Box<dyn Hittable>) {
+    self.objects.push(object);
+  }
+
+  pub fn add<H: Hittable + 'static>(&mut self, object: H) {
+    let object: Box<dyn Hittable> = Box::new(object);
+    self.add_boxed(object);
+  }
+
+  pub fn clear(&mut self) {
+    self.objects.clear();
+  }
+}
+
 impl Hittable for HittableList {
   fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
     self.objects.iter()
