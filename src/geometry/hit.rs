@@ -13,8 +13,18 @@ pub struct HitRecord {
   pub t: f64,
 }
 
+impl HitRecord {
+  pub const fn new(point: Point3, normal: Vec3, t: f64) -> Self {
+    HitRecord {
+      point,
+      normal,
+      t,
+    }
+  }
+}
+
 pub trait Hittable {
-  fn hit(&self, ray: &Ray, t_min: f64, t_max: f64, record: &mut HitRecord) -> bool;
+  fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord>;
 }
 
 pub struct HittableList {
@@ -27,5 +37,13 @@ impl Debug for HittableList {
           "HittableList: {{ objects: {}}}",
           self.objects.len()
       ))
+  }
+}
+
+impl Hittable for HittableList {
+  fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
+    self.objects.iter()
+      .filter_map(|object| object.hit(ray, t_min, t_max))
+      .min_by(|rl, rr| rl.t.partial_cmp(&rr.t).unwrap())
   }
 }
