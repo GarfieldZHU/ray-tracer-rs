@@ -3,8 +3,12 @@ use crate::core::{
   vec3::Vec3,
   point3::Point3,
   color::Color,
+  INFINITY,
 };
-use crate::geometry::sphere::Sphere;
+use crate::geometry::{
+  sphere::Sphere,
+  hit::{Hittable, HittableList}
+};
 
 pub fn ray_color(r: &Ray) -> Color {
   if Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5).is_hitten(r) {
@@ -27,6 +31,21 @@ pub fn shading_ray_color(r: &Ray) -> Color {
     t = 0.5 * (unit_direction.y + 1.0); 
     (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
   }
+}
+
+pub fn world_ray_color(r: &Ray) -> Color {
+  let mut world = HittableList::new();
+  world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5));
+  world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0));
+
+  if let Some(record) = world.hit(r, 0.0, INFINITY) {
+    0.5 * (Color::new(1.0, 1.0, 1.0) + record.normal)
+  } else {
+    let unit_direction: Vec3 = r.direction.unit();
+    let t = 0.5 * (unit_direction.y + 1.0); 
+    (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
+  }
+  
 }
 
 #[cfg(test)]
