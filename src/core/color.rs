@@ -1,4 +1,5 @@
 use std::ops::{Add, Mul};
+use super::vec3::Vec3;
 
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct Color {
@@ -38,6 +39,13 @@ impl Add<Self> for Color {
 
   fn add(self, _rhs: Self) -> Self::Output {
     Color::new(self.r + _rhs.r, self.g + _rhs.g, self.b + _rhs.b)
+  }
+}
+
+impl Add<Vec3> for Color {
+  type Output = Color;
+  fn add(self, _rhs: Vec3) -> Self::Output {
+    Color::new(self.r + _rhs.x, self.g + _rhs.y, self.b + _rhs.z)
   }
 }
 

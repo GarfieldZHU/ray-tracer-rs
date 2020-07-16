@@ -8,6 +8,9 @@ fn main() {
   // samples::ray_to_scene(samples::SceneCase::RaySphereScene);
 
   // Chapter 6: shading
-  samples::ray_to_scene(samples::SceneCase::ShadingWithNormalScene);
+  // samples::ray_to_scene(samples::SceneCase::ShadingWithNormalScene);
+
+  // Chapter 7: hittable objects
+  samples::ray_to_scene(samples::SceneCase::HittableObjectsScene);
 
 }

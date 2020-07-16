@@ -11,6 +11,7 @@ const IMAGE_HEIGHT: u32 =256;
 pub enum SceneCase {
   RaySphereScene,
   ShadingWithNormalScene,
+  HittableObjectsScene,
 }
 
 pub fn output_image() -> () {
@@ -58,7 +59,7 @@ pub fn ray_to_scene(scene: SceneCase) {
       let pixel_color = match scene {
         SceneCase::RaySphereScene => utils::ray_color(&r),
         SceneCase::ShadingWithNormalScene => utils::shading_ray_color(&r),
-
+        SceneCase::HittableObjectsScene => utils::world_ray_color(&r),
       };
       
       pixel_color.write_color();
