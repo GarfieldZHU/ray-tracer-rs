@@ -1,5 +1,9 @@
 # Ray-tracer-rs
 
+
+[![](https://github.com/GarfieldZHU/ray-tracer-rs/workflows/Ray-tracer/badge.svg)](https://github.com/GarfieldZHU/Aloha-study-room/actions?query=workflow%3ARay-tracer)
+[![MIT licensed](https://img.shields.io/github/license/GarfieldZHU/ray-tracer-rs)](./LICENSE)
+
 A simple ray tracer implemented in Rust, followed [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html) seires.
 
 ## Get started
