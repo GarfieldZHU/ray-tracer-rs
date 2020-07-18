@@ -1,3 +1,4 @@
+use rand::prelude::*;
 use crate::core::{
   ray::Ray,
   vec3::Vec3,
@@ -9,6 +10,20 @@ use crate::geometry::{
   sphere::Sphere,
   hit::{Hittable, HittableList}
 };
+
+
+pub fn random_double() -> f64 {
+  let mut rng = rand::thread_rng();
+  let y: f64 = rng.gen();
+  y
+}
+
+pub fn random_double_in_range(min: f64, max: f64) -> f64 {
+  if min > max {
+    return 0.0
+  }
+  min + (max - min) * random_double()
+}
 
 pub fn ray_color(r: &Ray) -> Color {
   if Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5).is_hitten(r) {
