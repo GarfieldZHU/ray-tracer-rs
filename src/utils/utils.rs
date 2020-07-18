@@ -65,15 +65,39 @@ pub fn world_ray_color(r: &Ray) -> Color {
 
 #[cfg(test)]
 mod test {
-  use super::{ray_color};
   use crate::core::color::Color;
   use crate::core::ray::Ray;
   use crate::core::vec3::Vec3;
   use crate::core::point3::Point3;
+  use super::{
+    ray_color,
+    random_double,
+    random_double_in_range,
+  };
+
 
   #[test]
   fn test_ray_color() {
     let x = ray_color(&Ray::new(Point3::new(10.0, 10.0, 10.0), Vec3::new(30.0, 40.0, 0.0)));
     assert_eq!(x, Color::new(0.55, 0.73, 1.0));
+  }
+
+  #[test]
+  fn test_ramdom_double() {
+    let a: f64 = random_double();
+    assert!(a >= 0.0);
+    assert!(a < 1.0);
+  }
+
+  #[test]
+  fn test_ramdom_double_in_range() {
+    let min = 5.125;
+    let max = 6.25;
+    for i in 1..100 {
+      assert!(random_double_in_range(min, max) >= min);
+      assert!(random_double_in_range(min, max) < max);
+    }
+
+    assert_eq!(random_double_in_range(max, min), 0.0);
   }
 }
