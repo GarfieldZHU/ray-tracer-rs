@@ -1,5 +1,6 @@
-use std::ops::{Add, Mul};
+use std::ops::{Add, AddAssign, Mul};
 use super::vec3::Vec3;
+use crate::utils::utils::{clamp};
 
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct Color {
@@ -19,6 +20,14 @@ impl Color {
 
   pub fn write_color(&self) {
     println!("{0} {1} {2}", (255.999*self.r) as u32, (255.999*self.g) as u32, (255.999*self.b) as u32);
+  }
+
+  pub fn write_scaled_color(&self, samples_per_pixel: u32) {
+    let scale = 1.0 / (samples_per_pixel as f64);
+    let r = (256.0 * clamp(self.r * scale, 0.0, 0.999)) as u32;
+    let g = (256.0 * clamp(self.g * scale, 0.0, 0.999)) as u32;
+    let b = (256.0 * clamp(self.b * scale, 0.0, 0.999)) as u32;
+    println!("{0} {1} {2}", r, g, b);
   }
 }
 
@@ -65,6 +74,13 @@ impl Mul<Color> for f64 {
   }
 }
 
+impl AddAssign<Self> for Color {
+  fn add_assign(&mut self, _rhs: Self) {
+    self.r += _rhs.r;
+    self.g += _rhs.g;
+    self.b += _rhs.b;
+  }
+}
 
 #[cfg(test)]
 mod test {

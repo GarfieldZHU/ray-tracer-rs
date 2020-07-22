@@ -13,4 +13,6 @@ fn main() {
   // Chapter 7: hittable objects
   samples::ray_to_scene(samples::SceneCase::HittableObjectsScene);
 
+  // Chapter 8: antialising
+  // samples::ray_to_scene_antialiasing()
 }

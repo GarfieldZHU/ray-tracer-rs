@@ -4,6 +4,7 @@ use crate::core::{
   ray::Ray,
 };
 
+#[derive(Clone, Copy, Debug)]
 pub struct Camera {
   origin: Point3,
   ll: Point3, 

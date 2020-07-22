@@ -2,8 +2,14 @@ use crate::core::{
   vec3::Vec3,
   point3::Point3,
   ray::Ray,
+  color::Color,
+};
+use crate::geometry::{
+  sphere::Sphere,
+  hit::{ HittableList}
 };
 use crate::utils::utils;
+use crate::camera::Camera;
 
 const IMAGE_WIDTH: u32 =256;
 const IMAGE_HEIGHT: u32 =256;
@@ -67,4 +73,35 @@ pub fn ray_to_scene(scene: SceneCase) {
   }
 
   eprintln!("\nDone.\n");
+}
+
+pub fn ray_to_scene_antialiasing() {
+  let aspect_ratio = 16.0 / 9.0;
+  let image_width = 384;
+  let image_height = (image_width as f64 / aspect_ratio) as u32;
+  let samples_per_pixel = 100;
+  let camera = Camera::new();
+
+  println!("P3\n{0} {1}\n255\n", image_width, image_height);
+
+  let mut world = HittableList::new();
+  world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5));
+  world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0));
+
+
+  for j in (0..image_height).rev() {
+    eprintln!("\rScanlines remaining: {0} ", j);
+
+    for i in 0..image_width {
+      let mut pixel_color = Color::new(0.0, 0.0, 0.0);
+      for s in 0..samples_per_pixel {
+        let u = (i as f64 + utils::random_double()) / (image_width - 1) as f64;
+        let v = (j as f64 + utils::random_double()) / (image_height - 1) as f64;
+        let r: Ray = camera.get_ray(u, v);
+        pixel_color += utils::world_ray_color(&r);
+      }
+      pixel_color.write_scaled_color(samples_per_pixel);
+    }
+  }
+  
 }
