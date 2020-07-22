@@ -63,6 +63,16 @@ pub fn world_ray_color(r: &Ray) -> Color {
   
 }
 
+pub fn clamp(x: f64, min: f64, max: f64) -> f64 {
+  if x < min {
+    min
+  } else if x > max {
+    max
+  } else {
+    x
+  }
+}
+
 #[cfg(test)]
 mod test {
   use crate::core::color::Color;
