@@ -83,6 +83,7 @@ mod test {
     ray_color,
     random_double,
     random_double_in_range,
+    clamp,
   };
 
 
@@ -109,5 +110,12 @@ mod test {
     }
 
     assert_eq!(random_double_in_range(max, min), 0.0);
+  }
+
+  #[test]
+  fn test_clamp() {
+    assert_eq!(clamp(5.0, 3.0, 10.0), 5.0);
+    assert_eq!(clamp(5.0, 7.0, 10.0), 7.0);
+    assert_eq!(clamp(5.0, -1.0, 3.5), 3.5);
   }
 }
