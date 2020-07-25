@@ -94,7 +94,7 @@ pub fn ray_to_scene_antialiasing() {
 
     for i in 0..image_width {
       let mut pixel_color = Color::new(0.0, 0.0, 0.0);
-      for s in 0..samples_per_pixel {
+      for _s in 0..samples_per_pixel {
         let u = (i as f64 + utils::random_double()) / (image_width - 1) as f64;
         let v = (j as f64 + utils::random_double()) / (image_height - 1) as f64;
         let r: Ray = camera.get_ray(u, v);

@@ -104,7 +104,7 @@ mod test {
   fn test_ramdom_double_in_range() {
     let min = 5.125;
     let max = 6.25;
-    for i in 1..100 {
+    for _i in 1..100 {
       assert!(random_double_in_range(min, max) >= min);
       assert!(random_double_in_range(min, max) < max);
     }
