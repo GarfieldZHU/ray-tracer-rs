@@ -1,5 +1,5 @@
 use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
-use crate::utils::utils::{random_double};
+use crate::utils::utils::{random_double, random_double_in_range};
 
 #[derive(Clone, Copy, Default, Debug, PartialEq)]
 pub struct Vec3 {
@@ -60,6 +60,14 @@ impl Vec3 {
   pub fn random() -> Self {
     Self {
       x: random_double(), y: random_double(), z: random_double(),
+    }
+  }
+
+  pub fn random_double_in_range(min: f64, max: f64) -> Self {
+    Self {
+      x: random_double_in_range(min, max),
+      y: random_double_in_range(min, max),
+      z: random_double_in_range(min, max),
     }
   }
 
