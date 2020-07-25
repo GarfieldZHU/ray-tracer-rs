@@ -31,7 +31,9 @@ A simple ray tracer implemented in Rust, followed [Ray Tracing in One Weekend](h
 - [x] Ray and camera
 - [x] Sphere with ray
 - [x] Surface normal
-- [ ] Antialiasing
+- [x] Antialiasing
+- [ ] Surface material
+- [ ] Metal sphere
 
 #### [The next week](https://raytracing.github.io/books/RayTracingTheNextWeek.html)
 
