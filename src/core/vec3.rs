@@ -1,4 +1,5 @@
 use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
+use crate::utils::utils::{random_double};
 
 #[derive(Clone, Copy, Default, Debug, PartialEq)]
 pub struct Vec3 {
@@ -50,6 +51,15 @@ impl Vec3 {
       x: u.y * v.z - u.z * v.y,
       y: u.z * v.x - u.x * v.z,
       z: u.x * v.y - u.y * v.x,
+    }
+  }
+
+  /**
+   * Static method to generate a random vector
+   */
+  pub fn random() -> Self {
+    Self {
+      x: random_double(), y: random_double(), z: random_double(),
     }
   }
 
