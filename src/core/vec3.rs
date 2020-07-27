@@ -63,12 +63,20 @@ impl Vec3 {
     }
   }
 
-  pub fn random_double_in_range(min: f64, max: f64) -> Self {
+  pub fn random_vec3_in_range(min: f64, max: f64) -> Self {
     Self {
       x: random_double_in_range(min, max),
       y: random_double_in_range(min, max),
       z: random_double_in_range(min, max),
     }
+  }
+
+  pub fn random_in_unit_sphere() -> Self {
+    let vec: Vec3 = loop {
+      let v: Vec3 = Self::random_vec3_in_range(-1.0, 1.0);
+      if v.length_square() >= 1.0 { break v; }
+    };
+    vec
   }
 
   pub fn unit(self) -> Vec3 {
