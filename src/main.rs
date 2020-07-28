@@ -14,5 +14,8 @@ fn main() {
   // samples::ray_to_scene(samples::SceneCase::HittableObjectsScene);
 
   // Chapter 8: antialising
-  samples::ray_to_scene_antialiasing()
+  // samples::ray_to_scene_advance(samples::AdvanceSceneCase::AntialiasingScene);
+
+  // Chapter 9: material
+  samples::ray_to_scene_advance(samples::AdvanceSceneCase::MaterialScene);
 }

@@ -20,6 +20,11 @@ pub enum SceneCase {
   HittableObjectsScene,
 }
 
+pub enum AdvanceSceneCase {
+  AntialiasingScene,
+  MaterialScene,
+}
+
 pub fn output_image() -> () {
   // PPM meta
   println!("P3\n{0} {1}\n255", IMAGE_WIDTH, IMAGE_HEIGHT);
@@ -79,7 +84,7 @@ pub fn ray_to_scene(scene: SceneCase) {
   eprintln!("\nDone.\n");
 }
 
-pub fn ray_to_scene_antialiasing() {
+pub fn ray_to_scene_advance(scene: AdvanceSceneCase) {
   let aspect_ratio = 16.0 / 9.0;
   let image_width = 384;
   let image_height = (image_width as f64 / aspect_ratio) as u32;
@@ -102,11 +107,15 @@ pub fn ray_to_scene_antialiasing() {
         let u = (i as f64 + utils::random_double()) / (image_width - 1) as f64;
         let v = (j as f64 + utils::random_double()) / (image_height - 1) as f64;
         let r: Ray = camera.get_ray(u, v);
+        let depth: u32 = 50;
 
         let mut world = HittableList::new();
         world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5));
         world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0));      
-        pixel_color += utils::world_ray_color(&r, &world);
+        pixel_color += match scene {
+          AdvanceSceneCase::AntialiasingScene => utils::world_ray_color(&r, &world),
+          AdvanceSceneCase::MaterialScene => utils::material_ray_color(&r, &world, depth),
+        };
       }
       pixel_color.write_scaled_color(samples_per_pixel);
     }

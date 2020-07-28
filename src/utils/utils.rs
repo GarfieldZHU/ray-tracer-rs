@@ -60,9 +60,13 @@ pub fn world_ray_color(r: &Ray, world: &HittableList) -> Color {
 }
 
 pub fn material_ray_color(r: &Ray, world: &HittableList, depth: u32) -> Color {  
+  if depth <= 0 {
+    return Color::new(0.0, 0.0, 0.0);
+  }
+
   if let Some(record) = world.hit(r, 0.0, INFINITY) {
     let target: Point3 = record.point + record.normal + Vec3::random_in_unit_sphere();
-    0.5 * world_ray_color(&Ray::new(record.point, target - record.point), world)
+    0.5 * material_ray_color(&Ray::new(record.point, target - record.point), world, depth-1)
   } else {
     let unit_direction: Vec3 = r.direction.unit();
     let t = 0.5 * (unit_direction.y + 1.0); 
