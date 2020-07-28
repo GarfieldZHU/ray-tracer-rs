@@ -63,6 +63,21 @@ pub fn world_ray_color(r: &Ray) -> Color {
   
 }
 
+pub fn material_ray_color(r: &Ray, world: &HittableList) -> Color {
+  let mut world = HittableList::new();
+  world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5));
+  world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0));
+  
+  if let Some(record) = world.hit(r, 0.0, INFINITY) {
+    let target: Point3 = record.point + record.normal + Vec3::random_in_unit_sphere();
+    0.5 * world_ray_color(&Ray::new(record.point, target - record.point))
+  } else {
+    let unit_direction: Vec3 = r.direction.unit();
+    let t = 0.5 * (unit_direction.y + 1.0); 
+    (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
+  }
+}
+
 pub fn clamp(x: f64, min: f64, max: f64) -> f64 {
   if x < min {
     min
