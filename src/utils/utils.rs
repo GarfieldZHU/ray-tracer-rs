@@ -48,11 +48,7 @@ pub fn shading_ray_color(r: &Ray) -> Color {
   }
 }
 
-pub fn world_ray_color(r: &Ray) -> Color {
-  let mut world = HittableList::new();
-  world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5));
-  world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0));
-
+pub fn world_ray_color(r: &Ray, world: &HittableList) -> Color {
   if let Some(record) = world.hit(r, 0.0, INFINITY) {
     0.5 * (Color::new(1.0, 1.0, 1.0) + record.normal)
   } else {
@@ -63,14 +59,10 @@ pub fn world_ray_color(r: &Ray) -> Color {
   
 }
 
-pub fn material_ray_color(r: &Ray, world: &HittableList) -> Color {
-  let mut world = HittableList::new();
-  world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5));
-  world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0));
-  
+pub fn material_ray_color(r: &Ray, world: &HittableList, depth: u32) -> Color {  
   if let Some(record) = world.hit(r, 0.0, INFINITY) {
     let target: Point3 = record.point + record.normal + Vec3::random_in_unit_sphere();
-    0.5 * world_ray_color(&Ray::new(record.point, target - record.point))
+    0.5 * world_ray_color(&Ray::new(record.point, target - record.point), world)
   } else {
     let unit_direction: Vec3 = r.direction.unit();
     let t = 0.5 * (unit_direction.y + 1.0); 

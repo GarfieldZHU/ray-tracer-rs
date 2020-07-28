@@ -11,8 +11,8 @@ fn main() {
   // samples::ray_to_scene(samples::SceneCase::ShadingWithNormalScene);
 
   // Chapter 7: hittable objects
-  samples::ray_to_scene(samples::SceneCase::HittableObjectsScene);
+  // samples::ray_to_scene(samples::SceneCase::HittableObjectsScene);
 
   // Chapter 8: antialising
-  // samples::ray_to_scene_antialiasing()
+  samples::ray_to_scene_antialiasing()
 }

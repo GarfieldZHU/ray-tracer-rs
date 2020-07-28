@@ -62,10 +62,14 @@ pub fn ray_to_scene(scene: SceneCase) {
       let u = i as f64 / ((image_width-1) as f64);
       let v = j as f64 / ((image_height-1) as f64);
       let r = Ray::new(origin, lower_left_corner + u*horizontal + v*vertical - origin);
+
+      let mut world = HittableList::new();
+      world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5));
+      world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0)); 
       let pixel_color = match scene {
         SceneCase::RaySphereScene => utils::ray_color(&r),
         SceneCase::ShadingWithNormalScene => utils::shading_ray_color(&r),
-        SceneCase::HittableObjectsScene => utils::world_ray_color(&r),
+        SceneCase::HittableObjectsScene => utils::world_ray_color(&r, &world),
       };
       
       pixel_color.write_color();
@@ -98,7 +102,11 @@ pub fn ray_to_scene_antialiasing() {
         let u = (i as f64 + utils::random_double()) / (image_width - 1) as f64;
         let v = (j as f64 + utils::random_double()) / (image_height - 1) as f64;
         let r: Ray = camera.get_ray(u, v);
-        pixel_color += utils::world_ray_color(&r);
+
+        let mut world = HittableList::new();
+        world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5));
+        world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0));      
+        pixel_color += utils::world_ray_color(&r, &world);
       }
       pixel_color.write_scaled_color(samples_per_pixel);
     }
