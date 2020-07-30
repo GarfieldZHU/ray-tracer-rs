@@ -117,7 +117,7 @@ pub fn ray_to_scene_advance(scene: AdvanceSceneCase) {
           AdvanceSceneCase::MaterialScene => utils::material_ray_color(&r, &world, depth),
         };
       }
-      pixel_color.write_scaled_color(samples_per_pixel);
+      pixel_color.write_color_gamma_corrected(samples_per_pixel);
     }
   }
   
