@@ -29,6 +29,15 @@ impl Color {
     let b = (256.0 * clamp(self.b * scale, 0.0, 0.999)) as u32;
     println!("{0} {1} {2}", r, g, b);
   }
+
+  pub fn write_color_gamma_corrected(&self, samples_per_pixel: u32) {
+    let scale = 1.0 / (samples_per_pixel as f64);
+    let r = (256.0 * clamp((self.r * scale).sqrt(), 0.0, 0.999)) as u32;
+    let g = (256.0 * clamp((self.g * scale).sqrt(), 0.0, 0.999)) as u32;
+    let b = (256.0 * clamp((self.b * scale).sqrt(), 0.0, 0.999)) as u32;
+    println!("{0} {1} {2}", r, g, b);
+
+  }
 }
 
 impl From<(u8, u8, u8)> for Color {
