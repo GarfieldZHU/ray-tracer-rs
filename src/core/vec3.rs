@@ -222,5 +222,9 @@ mod test {
     assert_eq!(Vec3::cross(&u, &v), Vec3::new(-5.0, 16.0, -9.0));
   }
 
-  
+  #[test]
+  fn test_random_unit_vec() {
+    let v = Vec3::random_unit_vec();
+    assert_eq!(v.length(), 1.0);
+  }
 }
