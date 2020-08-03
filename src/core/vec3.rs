@@ -1,5 +1,6 @@
 use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
 use crate::utils::utils::{random_double, random_double_in_range};
+use crate::core::{PI};
 
 #[derive(Clone, Copy, Default, Debug, PartialEq)]
 pub struct Vec3 {
@@ -77,6 +78,13 @@ impl Vec3 {
       if v.length_square() >= 1.0 { break v; }
     };
     vec
+  }
+
+  pub fn random_unit_vec() -> Self {
+    let a = random_double_in_range(0.0, 2.0 * PI); 
+    let z = random_double_in_range(-1.0, 1.0);
+    let r = (1.0 - z * z).sqrt();
+    Vec3::new(r * a.cos(), r * a.sin(), z)
   }
 
   pub fn unit(self) -> Vec3 {
@@ -213,4 +221,6 @@ mod test {
     let v = Vec3::new(6.0, 3.0, 2.0);
     assert_eq!(Vec3::cross(&u, &v), Vec3::new(-5.0, 16.0, -9.0));
   }
+
+  
 }
