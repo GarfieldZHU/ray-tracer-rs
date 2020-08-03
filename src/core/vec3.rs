@@ -72,6 +72,9 @@ impl Vec3 {
     }
   }
 
+  /**
+   * Get a random unit at sphere.
+   */
   pub fn random_in_unit_sphere() -> Self {
     let vec: Vec3 = loop {
       let v: Vec3 = Self::random_vec3_in_range(-1.0, 1.0);
@@ -80,6 +83,9 @@ impl Vec3 {
     vec
   }
 
+  /**
+   * Get a random unit vector of true Lambertian reflection at sphere.
+   */
   pub fn random_unit_vec() -> Self {
     let a = random_double_in_range(0.0, 2.0 * PI); 
     let z = random_double_in_range(-1.0, 1.0);
