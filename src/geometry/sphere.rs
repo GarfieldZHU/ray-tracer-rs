@@ -62,14 +62,18 @@ impl Hittable for Sphere {
         let t: f64 = solution_1;
         let point: Point3 = ray.at(t);
         let normal: Vec3 = (point - self.center) / self.radius;
-        return Some(HitRecord::new(point, normal, t));
+        let record = HitRecord::new(point, normal, t);
+        record.set_face_normal(ray, normal);
+        return Some(record);
       }
       let solution_2: f64 = (-half_b + root) / a;
       if solution_2 < t_max && solution_2 > t_min {
         let t: f64 = solution_2;
         let point: Point3 = ray.at(t);
         let normal: Vec3 = (point - self.center) / self.radius;
-        return Some(HitRecord::new(point, normal, t));
+        let record = HitRecord::new(point, normal, t);
+        record.set_face_normal(ray, normal);
+        return Some(record);
       }
     } 
     None
