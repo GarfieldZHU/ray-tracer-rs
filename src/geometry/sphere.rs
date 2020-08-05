@@ -17,6 +17,9 @@ impl Sphere {
   pub fn new(center: Point3, radius: f64) -> Self {
     Sphere { center, radius, material: Box::new(DefaultMaterial::new()) }
   }
+  pub fn new_material_sphere(center: Point3, radius: f64, material: Box<dyn Material>) -> Self {
+    Sphere { center, radius, material }
+  }
 
   /**
    * If the ray hit the area of the sphere.
