@@ -34,6 +34,7 @@ A simple ray tracer implemented in Rust, followed [Ray Tracing in One Weekend](h
 - [x] Antialiasing
 - [x] Surface material
 - [ ] Metal sphere
+- [ ] Dielectrics
 
 #### [The next week](https://raytracing.github.io/books/RayTracingTheNextWeek.html)
 
