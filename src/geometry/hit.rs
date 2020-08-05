@@ -5,13 +5,15 @@ use crate::core::{
   ray::Ray,
   vec3::Vec3,
 };
+use crate::materials::{Material};
 
-#[derive(Clone, Copy)]
+// #[derive(Clone, Copy)]
 pub struct HitRecord {
   pub point: Point3,
   pub normal: Vec3,
   pub t: f64,
   pub front_face: bool,
+  // pub material: Box<dyn Material>,
 }
 
 impl HitRecord {
@@ -21,10 +23,11 @@ impl HitRecord {
       normal,
       t,
       front_face: true,
+      // material,
     }
   }
 
-  pub fn set_face_normal(mut self, r: &Ray, outward_normal: Vec3) {
+  pub fn set_face_normal(&mut self, r: &Ray, outward_normal: Vec3) {
     self.front_face = Vec3::dot(&r.direction, &outward_normal) < 0.0;
     self.normal = if self.front_face { outward_normal } else { outward_normal.get_reversed() };
   }
