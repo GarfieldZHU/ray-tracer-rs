@@ -94,7 +94,7 @@ mod tests {
   
   #[test]
   fn test_hit() {
-    let s = Sphere {center: Point3::new(0.0, 0.0, 0.0), radius: 1.0};
+    let s = Sphere:new(center: Point3::new(0.0, 0.0, 0.0), radius: 1.0);
     let r1 = Ray::new(Point3::new(5.0, 0.0, 0.0), Vec3::new(1.0, 1.0, 1.0));
     assert_eq!(s.is_hitten(&r1), false);
 
