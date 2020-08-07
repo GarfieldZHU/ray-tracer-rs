@@ -100,6 +100,14 @@ impl Vec3 {
       z: self.z / self.length(),
     }
   }
+  
+  pub fn reflect(v: &Vec3, n: &Vec3) -> Vec3 {
+    v - 2 * dot(v - n) * n
+  }
+  
+  pub fn reflect_me(&self, normal: &Vec3) -> Vec3 {
+    reflect(self, normal)
+  }
 }
 
 impl Add for Vec3 {
@@ -232,5 +240,13 @@ mod test {
   fn test_random_unit_vec() {
     let v = Vec3::random_unit_vec();
     assert_eq!(v.length(), 1.0);
+  }
+  
+  #[tesat]
+  fn test_reflect() {
+    let v = Vec3::new(-1.0, 0.0, 1.0);
+    let n = Vec3::new(0.0, 0.0, 1.0);
+    assert_eq!(reflect(v, n), Vec3::new(1.0, 0.0, 1.0));
+    assert_eq!(v.reflect_me(n), Vec3::new(1.0, 0.0, 1.0));
   }
 }
