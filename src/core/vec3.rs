@@ -101,11 +101,11 @@ impl Vec3 {
     }
   }
   
-  pub fn reflect(v: &Vec3, n: &Vec3) -> Vec3 {
-    v - 2 * dot(v - n) * n
+  pub fn reflect(v: Vec3, n: Vec3) -> Vec3 {
+    v - 2.0 * dot(v - n) * n
   }
   
-  pub fn reflect_me(&self, normal: &Vec3) -> Vec3 {
+  pub fn reflect_me(self, normal: Vec3) -> Vec3 {
     reflect(self, normal)
   }
 }
@@ -246,7 +246,7 @@ mod test {
   fn test_reflect() {
     let v = Vec3::new(-1.0, 0.0, 1.0);
     let n = Vec3::new(0.0, 0.0, 1.0);
-    assert_eq!(reflect(v, n), Vec3::new(1.0, 0.0, 1.0));
+    assert_eq!(Vec3::reflect(v, n), Vec3::new(1.0, 0.0, 1.0));
     assert_eq!(v.reflect_me(n), Vec3::new(1.0, 0.0, 1.0));
   }
 }
