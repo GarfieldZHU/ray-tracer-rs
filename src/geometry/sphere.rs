@@ -88,7 +88,7 @@ mod tests {
   use super::Vec3;
   use super::Point3;
   use super::Sphere;
-  use super::DefaultMaterial;
+  use crate::materials::DefaultMaterial;
   
   #[test]
   fn test_hit() {
