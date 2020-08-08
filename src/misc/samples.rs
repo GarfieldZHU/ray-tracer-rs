@@ -9,7 +9,6 @@ use crate::geometry::{
   hit::{ HittableList}
 };
 use crate::materials::{
-  Material,
   DefaultMaterial,
 };
 use crate::utils::utils;

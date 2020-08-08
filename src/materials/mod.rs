@@ -10,7 +10,7 @@ pub use crate::geometry::{
 };
 
 pub trait Material {
-  fn scatter(self, r_in: &Ray, record: &HitRecord, attenuation: &Color, scattered: &Ray) -> bool;
+  fn scatter(self, r_in: &Ray, record: &HitRecord, attenuation: &mut Color, scattered: &Ray) -> bool;
 }
 
 pub struct DefaultMaterial { }
@@ -20,7 +20,7 @@ impl DefaultMaterial {
   }
 }
 impl Material for DefaultMaterial {
-  fn scatter(self, _r_in: &Ray, _record: &HitRecord, _attenuation: &Color, _scattered: &Ray) -> bool {
+  fn scatter(self, _r_in: &Ray, _record: &HitRecord, _attenuation: &mut Color, _scattered: &Ray) -> bool {
     true
   }
 }
