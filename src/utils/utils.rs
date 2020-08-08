@@ -10,6 +10,10 @@ use crate::geometry::{
   sphere::Sphere,
   hit::{Hittable, HittableList}
 };
+use crate::materials::{
+  DefaultMaterial,
+  Material,
+};
 
 
 pub fn random_double() -> f64 {
@@ -26,7 +30,7 @@ pub fn random_double_in_range(min: f64, max: f64) -> f64 {
 }
 
 pub fn ray_color(r: &Ray) -> Color {
-  if Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5).is_hitten(r) {
+  if Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, DefaultMaterial::new()).is_hitten(r) {
     Color::new(1.0, 0.0, 0.0)
   } else {
     let unit_direction: Vec3 = r.direction.unit();
@@ -36,7 +40,7 @@ pub fn ray_color(r: &Ray) -> Color {
 }
 
 pub fn shading_ray_color(r: &Ray) -> Color {
-  let s = Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5);
+  let s = Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, DefaultMaterial::new());
   let mut t: f64 = s.hit_value(r);
   if t > 0.0 {
     let n: Vec3 = (r.at(t) - Vec3::new(0.0, 0.0, -1.0)).unit();

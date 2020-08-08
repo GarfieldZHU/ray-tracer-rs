@@ -7,17 +7,14 @@ use crate::materials::{Material, DefaultMaterial};
 
 use super::hit::{HitRecord, Hittable};
 
-pub struct Sphere {
+pub struct Sphere<M: Material> {
   center: Point3,
   radius: f64,
-  material: Box<dyn Material>,
+  material: M,
 }
 
-impl Sphere {
-  pub fn new(center: Point3, radius: f64) -> Self {
-    Sphere { center, radius, material: Box::new(DefaultMaterial::new()) }
-  }
-  pub fn new_material_sphere(center: Point3, radius: f64, material: Box<dyn Material>) -> Self {
+impl<M: Material> Sphere<M> {
+  pub fn new(center: Point3, radius: f64, material: M) -> Self {
     Sphere { center, radius, material }
   }
 
@@ -52,7 +49,7 @@ impl Sphere {
   }
 }
 
-impl Hittable for Sphere {
+impl<M: Material> Hittable for Sphere<M> {
   fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord> {
     let oc: Vec3 = ray.origin - self.center;
     let a: f64 = ray.direction.length_square();
@@ -67,7 +64,7 @@ impl Hittable for Sphere {
         let t: f64 = solution_1;
         let point: Point3 = ray.at(t);
         let normal: Vec3 = (point - self.center) / self.radius;
-        let mut record = HitRecord::new(point, normal, t);
+        let mut record = HitRecord::new(point, normal, t, &self.material);
         record.set_face_normal(ray, normal);
         return Some(record);
       }
@@ -76,7 +73,7 @@ impl Hittable for Sphere {
         let t: f64 = solution_2;
         let point: Point3 = ray.at(t);
         let normal: Vec3 = (point - self.center) / self.radius;
-        let mut record = HitRecord::new(point, normal, t);
+        let mut record = HitRecord::new(point, normal, t, &self.material);
         record.set_face_normal(ray, normal);
         return Some(record);
       }
@@ -91,10 +88,11 @@ mod tests {
   use super::Vec3;
   use super::Point3;
   use super::Sphere;
+  use super::DefaultMaterial;
   
   #[test]
   fn test_hit() {
-    let s = Sphere::new(Point3::new(0.0, 0.0, 0.0), 1.0);
+    let s = Sphere::new(Point3::new(0.0, 0.0, 0.0), 1.0, DefaultMaterial::new());
     let r1 = Ray::new(Point3::new(5.0, 0.0, 0.0), Vec3::new(1.0, 1.0, 1.0));
     assert_eq!(s.is_hitten(&r1), false);
 

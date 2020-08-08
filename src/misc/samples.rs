@@ -8,6 +8,10 @@ use crate::geometry::{
   sphere::Sphere,
   hit::{ HittableList}
 };
+use crate::materials::{
+  Material,
+  DefaultMaterial,
+};
 use crate::utils::utils;
 use crate::camera::Camera;
 
@@ -69,8 +73,8 @@ pub fn ray_to_scene(scene: SceneCase) {
       let r = Ray::new(origin, lower_left_corner + u*horizontal + v*vertical - origin);
 
       let mut world = HittableList::new();
-      world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5));
-      world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0)); 
+      world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, DefaultMaterial::new()));
+      world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, DefaultMaterial::new())); 
       let pixel_color = match scene {
         SceneCase::RaySphereScene => utils::ray_color(&r),
         SceneCase::ShadingWithNormalScene => utils::shading_ray_color(&r),
@@ -94,8 +98,8 @@ pub fn ray_to_scene_advance(scene: AdvanceSceneCase) {
   println!("P3\n{0} {1}\n255\n", image_width, image_height);
 
   let mut world = HittableList::new();
-  world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5));
-  world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0));
+  world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, DefaultMaterial::new()));
+  world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, DefaultMaterial::new()));
 
 
   for j in (0..image_height).rev() {
@@ -110,8 +114,8 @@ pub fn ray_to_scene_advance(scene: AdvanceSceneCase) {
         let depth: u32 = 50;
 
         let mut world = HittableList::new();
-        world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5));
-        world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0));      
+        world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, DefaultMaterial::new()));
+        world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, DefaultMaterial::new()));      
         pixel_color += match scene {
           AdvanceSceneCase::AntialiasingScene => utils::world_ray_color(&r, &world),
           AdvanceSceneCase::MaterialScene => utils::material_ray_color(&r, &world, depth),

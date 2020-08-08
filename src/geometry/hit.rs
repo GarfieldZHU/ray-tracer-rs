@@ -5,25 +5,25 @@ use crate::core::{
   ray::Ray,
   vec3::Vec3,
 };
-use crate::materials::{Material};
+use crate::materials::{Material, DefaultMaterial};
 
 // #[derive(Clone, Copy)]
-pub struct HitRecord {
+pub struct HitRecord<'a> {
   pub point: Point3,
   pub normal: Vec3,
   pub t: f64,
   pub front_face: bool,
-  // pub material: Box<dyn Material>,
+  pub material: &'a dyn Material,
 }
 
-impl HitRecord {
-  pub const fn new(point: Point3, normal: Vec3, t: f64) -> Self {
+impl<'m> HitRecord<'m> {
+  pub fn new(point: Point3, normal: Vec3, t: f64, material: &'m dyn Material) -> Self {
     HitRecord {
       point,
       normal,
       t,
       front_face: true,
-      // material,
+      material,
     }
   }
 
