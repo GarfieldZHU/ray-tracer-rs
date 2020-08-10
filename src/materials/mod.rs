@@ -1,3 +1,4 @@
+pub mod lambertian;
 pub mod metal;
 
 pub use crate::core::{

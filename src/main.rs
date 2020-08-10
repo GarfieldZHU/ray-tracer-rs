@@ -17,5 +17,6 @@ fn main() {
   // samples::ray_to_scene_advance(samples::AdvanceSceneCase::AntialiasingScene);
 
   // Chapter 9: material: diffuse -> gamma correction
-  samples::ray_to_scene_advance(samples::AdvanceSceneCase::MaterialScene);
+  // samples::ray_to_scene_advance(samples::AdvanceSceneCase::MaterialScene);
+  samples::ray_to_scene_advance(samples::AdvanceSceneCase::MetalScene)
 }

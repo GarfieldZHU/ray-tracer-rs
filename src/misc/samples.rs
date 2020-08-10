@@ -10,6 +10,8 @@ use crate::geometry::{
 };
 use crate::materials::{
   DefaultMaterial,
+  lambertian::Lambertian,
+  metal::Metal,
 };
 use crate::utils::utils;
 use crate::camera::Camera;
@@ -23,9 +25,11 @@ pub enum SceneCase {
   HittableObjectsScene,
 }
 
+#[derive(std::cmp::PartialEq)]
 pub enum AdvanceSceneCase {
   AntialiasingScene,
   MaterialScene,
+  MetalScene,
 }
 
 pub fn output_image() -> () {
@@ -113,11 +117,24 @@ pub fn ray_to_scene_advance(scene: AdvanceSceneCase) {
         let depth: u32 = 50;
 
         let mut world = HittableList::new();
-        world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, DefaultMaterial::new()));
-        world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, DefaultMaterial::new()));      
-        pixel_color += match scene {
+        if scene == AdvanceSceneCase::MetalScene {
+          let material_ground = Lambertian { albedo: Color::new(0.8, 0.8, 0.0) };
+          let material_center = Lambertian { albedo: Color::new(0.7, 0.3, 0.3) };
+          let material_left = Metal { albedo: Color::new(0.8, 0.8, 0.8) };
+          let material_right = Metal { albedo: Color::new(0.8, 0.6, 0.2) };
+
+          world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, material_ground));
+          world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, material_center));
+          world.add(Sphere::new(Point3::new(-1.0, 0.0, -1.0), 0.5, material_left));
+          world.add(Sphere::new(Point3::new( 1.0, 0.0, -1.0), 0.5, material_right));
+        } else {
+          world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, DefaultMaterial::new()));
+          world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, DefaultMaterial::new()));        
+        }
+                pixel_color += match scene {
           AdvanceSceneCase::AntialiasingScene => utils::world_ray_color(&r, &world),
           AdvanceSceneCase::MaterialScene => utils::material_ray_color(&r, &world, depth),
+          AdvanceSceneCase::MetalScene => utils::metal_ray_color(&r, &world, depth),
         };
       }
       pixel_color.write_color_gamma_corrected(samples_per_pixel);
