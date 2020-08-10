@@ -2,7 +2,7 @@ use std::ops::{Add, AddAssign, Mul};
 use super::vec3::Vec3;
 use crate::utils::utils::{clamp};
 
-#[derive(Debug, Clone, Default, PartialEq)]
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
 pub struct Color {
   r: f64,
   g: f64,
@@ -80,6 +80,17 @@ impl Mul<Color> for f64 {
 
   fn mul(self, _rhs: Color) -> Self::Output {
     _rhs * self
+  }
+}
+
+/**
+ * 
+ */
+impl Mul<&Color> for &Color {
+  type Output = Color;
+
+  fn mul(self, rhs: &Color) -> Self::Output {
+    Color::new(self.r * rhs.r, self.g * rhs.g, self.b * rhs.b)
   }
 }
 

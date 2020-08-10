@@ -78,6 +78,24 @@ pub fn material_ray_color(r: &Ray, world: &HittableList, depth: u32) -> Color {
   }
 }
 
+pub fn metal_ray_color(r: &Ray, world: &HittableList, depth: u32) -> Color {  
+  if depth <= 0 {
+    return Color::new(0.0, 0.0, 0.0);
+  }
+
+  if let Some(record) = world.hit(r, 0.001, INFINITY) {
+    if let Some(scattered_record) = record.material.scatter(r, &record) {
+      return &scattered_record.attenuation * &metal_ray_color(&scattered_record.scattered, world, depth-1)
+    }
+
+    Color::new(0.0, 0.0, 0.0)
+  } else {
+    let unit_direction: Vec3 = r.direction.unit();
+    let t = 0.5 * (unit_direction.y + 1.0); 
+    (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
+  }
+}
+
 pub fn clamp(x: f64, min: f64, max: f64) -> f64 {
   if x < min {
     min
