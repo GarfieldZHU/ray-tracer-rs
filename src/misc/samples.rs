@@ -120,8 +120,8 @@ pub fn ray_to_scene_advance(scene: AdvanceSceneCase) {
         if scene == AdvanceSceneCase::MetalScene {
           let material_ground = Lambertian { albedo: Color::new(0.8, 0.8, 0.0) };
           let material_center = Lambertian { albedo: Color::new(0.7, 0.3, 0.3) };
-          let material_left = Metal { albedo: Color::new(0.8, 0.8, 0.8) };
-          let material_right = Metal { albedo: Color::new(0.8, 0.6, 0.2) };
+          let material_left = Metal::new(Color::new(0.8, 0.8, 0.8), 0.3);
+          let material_right = Metal::new(Color::new(0.8, 0.6, 0.2), 1.0);
 
           world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, material_ground));
           world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, material_center));
