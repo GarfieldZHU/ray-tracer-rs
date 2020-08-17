@@ -12,6 +12,7 @@ use crate::materials::{
   DefaultMaterial,
   lambertian::Lambertian,
   metal::Metal,
+  dielectric::Dielectric,
 };
 use crate::utils::utils;
 use crate::camera::Camera;
@@ -30,6 +31,7 @@ pub enum AdvanceSceneCase {
   AntialiasingScene,
   MaterialScene,
   MetalScene,
+  RefractionScene,
 }
 
 pub fn output_image() -> () {
@@ -127,14 +129,26 @@ pub fn ray_to_scene_advance(scene: AdvanceSceneCase) {
           world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, material_center));
           world.add(Sphere::new(Point3::new(-1.0, 0.0, -1.0), 0.5, material_left));
           world.add(Sphere::new(Point3::new( 1.0, 0.0, -1.0), 0.5, material_right));
+        } else if scene == AdvanceSceneCase::RefractionScene  {
+          let material_ground = Lambertian { albedo: Color::new(0.8, 0.8, 0.0) };
+          let material_center = Dielectric::new(1.5);
+          let material_left = Dielectric::new(1.5);
+          let material_right = Metal::new(Color::new(0.8, 0.6, 0.2), 1.0);
+
+          world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, material_ground));
+          world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, material_center));
+          world.add(Sphere::new(Point3::new(-1.0, 0.0, -1.0), 0.5, material_left));
+          world.add(Sphere::new(Point3::new( 1.0, 0.0, -1.0), 0.5, material_right));
         } else {
           world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, DefaultMaterial::new()));
           world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, DefaultMaterial::new()));        
         }
-                pixel_color += match scene {
+
+        pixel_color += match scene {
           AdvanceSceneCase::AntialiasingScene => utils::world_ray_color(&r, &world),
           AdvanceSceneCase::MaterialScene => utils::material_ray_color(&r, &world, depth),
           AdvanceSceneCase::MetalScene => utils::metal_ray_color(&r, &world, depth),
+          AdvanceSceneCase::RefractionScene => utils::metal_ray_color(&r, &world, depth),
         };
       }
       pixel_color.write_color_gamma_corrected(samples_per_pixel);

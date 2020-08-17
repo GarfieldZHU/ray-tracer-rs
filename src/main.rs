@@ -18,5 +18,8 @@ fn main() {
 
   // Chapter 9: material: diffuse -> gamma correction
   // samples::ray_to_scene_advance(samples::AdvanceSceneCase::MaterialScene);
-  samples::ray_to_scene_advance(samples::AdvanceSceneCase::MetalScene)
+  // samples::ray_to_scene_advance(samples::AdvanceSceneCase::MetalScene)
+  
+  // Chapter 10: Dielectrics: refraction
+  samples::ray_to_scene_advance(samples::AdvanceSceneCase::RefractionScene)
 }

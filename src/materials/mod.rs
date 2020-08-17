@@ -1,5 +1,6 @@
 pub mod lambertian;
 pub mod metal;
+pub mod dielectric;
 
 pub use crate::core::{
   vec3::Vec3,
