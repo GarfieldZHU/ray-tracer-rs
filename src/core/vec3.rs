@@ -1,4 +1,4 @@
-use std::ops::{Add, AddAssign, Div, Mul, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Div, Mul, Neg, Sub, SubAssign};
 use crate::utils::utils::{random_double, random_double_in_range};
 use crate::core::{PI};
 
@@ -101,12 +101,25 @@ impl Vec3 {
     }
   }
   
+  /**
+   * Get the reflected vector of the given vector with the normal.
+   * */
   pub fn reflect(v: Vec3, n: Vec3) -> Vec3 {
     v - 2.0 * Self::dot(&v, &n) * n
   }
   
   pub fn reflect_me(self, normal: Vec3) -> Vec3 {
     Self::reflect(self, normal)
+  }
+
+  /**
+   * Get the refracted vector, the normal and the refraction ratio over "eta"
+   * */
+  pub fn refract(uv: Vec3, n: Vec3, etai_over_etat: f64) -> Vec3 {
+    let cos_theta = Self::dot(&(-uv), &n);
+    let r_out_perp: Vec3 = etai_over_etat * (uv + cos_theta * n);
+    let r_out_parallel: Vec3 = -(1.0 - r_out_perp.length_square()).abs().sqrt() * n;
+    r_out_perp + r_out_parallel
   }
 }
 
@@ -123,6 +136,15 @@ impl Sub for Vec3 {
   
   fn sub(self, _rhs: Self) -> Self::Output {
     Vec3::new(self.x - _rhs.x, self.y - _rhs.y, self.z - _rhs.z)
+  }
+}
+
+
+impl Neg for Vec3 {
+  type Output = Vec3;
+  
+  fn neg(self) -> Self::Output {
+    Vec3::new(-self.x, -self.y, -self.z)
   }
 }
 
