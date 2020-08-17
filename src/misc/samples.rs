@@ -138,6 +138,7 @@ pub fn ray_to_scene_advance(scene: AdvanceSceneCase) {
           world.add(Sphere::new(Point3::new(0.0, -100.5, -1.0), 100.0, material_ground));
           world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, material_center));
           world.add(Sphere::new(Point3::new(-1.0, 0.0, -1.0), 0.5, material_left));
+          world.add(Sphere::new(Point3::new(-1.0, 0.0, -1.0), -0.4, material_left));
           world.add(Sphere::new(Point3::new( 1.0, 0.0, -1.0), 0.5, material_right));
         } else {
           world.add(Sphere::new(Point3::new(0.0, 0.0, -1.0), 0.5, DefaultMaterial::new()));

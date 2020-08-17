@@ -5,7 +5,9 @@ use crate::core::{
 };
 use crate::geometry::hit::{HitRecord};
 use super::{Material, ScatterRecord};
+use crate::utils::utils::{random_double, schlick};
 
+#[derive(Clone, Copy, Debug)]
 pub struct Dielectric {
   pub ref_idx: f64,
 }
@@ -25,7 +27,11 @@ impl Material for Dielectric {
 
     let cos_theta: f64 = Vec3::dot(&(-unit_direction), &record.normal).min(1.0);
     let sin_theta: f64 = (1.0 - cos_theta * cos_theta).sqrt();
-    if etai_over_etat * sin_theta > 1.0 {
+    
+    let reflect_prob: f64 = schlick(cos_theta, etai_over_etat);
+    let random_factor: f64 = random_double();
+
+    if etai_over_etat * sin_theta > 1.0 || random_factor < reflect_prob {
       // Reflection
       let reflected: Vec3 = Vec3::reflect(unit_direction, record.normal);
       Some(ScatterRecord{
