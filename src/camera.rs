@@ -28,13 +28,13 @@ impl Camera {
     Self { origin, ll, horizontal, vertical }
   }
 
-  pub fn new_para(vfov: f64, aspect_ratio: f64) -> Self {
+  pub fn new_param(vfov: f64, aspect_ratio: f64) -> Self {
     let theta = degrees_to_radians(vfov);
     let h = (theta / 2.0).tan();
     let viewport_height = 2.0 * h;
     let viewport_width = aspect_ratio * viewport_height;
     let focal_length = 1.0;
-    
+
     let origin = Point3::new(0.0, 0.0, 0.0);
     let horizontal = Point3::new(viewport_width, 0.0, 0.0);
     let vertical = Vec3::new(0.0, viewport_height, 0.0);
