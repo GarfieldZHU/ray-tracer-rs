@@ -3,6 +3,8 @@
 
 [![](https://github.com/GarfieldZHU/ray-tracer-rs/workflows/Ray-tracer/badge.svg)](https://github.com/GarfieldZHU/ray-tracer-rs/actions?query=workflow%3ARay-tracer)
 [![MIT licensed](https://img.shields.io/github/license/GarfieldZHU/ray-tracer-rs)](./LICENSE)
+[![Last commit](https://img.shields.io/github/last-commit/GarfieldZHU/ray-tracer-rs)](.)
+
 
 A simple ray tracer implemented in Rust, followed [Ray Tracing in One Weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html) seires.
 
