@@ -124,8 +124,8 @@ pub fn random_scene() -> HittableList {
   world.add(Sphere::new(Point3::new(0.0, -1000.0, 0.0), 1000.0, material_ground));
   
   // Randomly add some spheres
-  for a in -9..10 {
-    for b in -9..10 {
+  for a in -8..8 {
+    for b in -8..8 {
       let choose_mat = random_double();
       // Vertical position is fixed (they are all on the ground)
       let center = Point3::new(
