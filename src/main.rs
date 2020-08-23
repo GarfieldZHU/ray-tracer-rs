@@ -21,5 +21,8 @@ fn main() {
   // samples::ray_to_scene_advance(samples::AdvanceSceneCase::MetalScene)
   
   // Chapter 10: Dielectrics: refraction
-  samples::ray_to_scene_advance(samples::AdvanceSceneCase::RefractionScene)
+  // samples::ray_to_scene_advance(samples::AdvanceSceneCase::RefractionScene)
+
+  // Chapter 11: Move camera
+  samples::ray_to_scene_camera()
 }

@@ -3,6 +3,7 @@ use crate::core::{
   point3::Point3,
   ray::Ray,
   color::Color,
+  PI,
 };
 use crate::geometry::{
   sphere::Sphere,
@@ -156,4 +157,42 @@ pub fn ray_to_scene_advance(scene: AdvanceSceneCase) {
     }
   }
   
+}
+
+pub fn ray_to_scene_camera() {
+  let aspect_ratio = 16.0 / 9.0;
+  let image_width = 384;
+  let image_height = (image_width as f64 / aspect_ratio) as u32;
+  let samples_per_pixel = 100;
+
+  let radius = (PI / 4.0).cos();
+  let mut world = HittableList::new();
+
+  let material_left  = Lambertian { albedo: Color::new(0.0,0.0,1.0) };
+  let material_right = Lambertian { albedo: Color::new(1.0,0.0,0.0) };
+
+
+  world.add(Sphere::new(Point3::new(-radius, 0.0, -1.0), radius, material_left));
+  world.add(Sphere::new(Point3::new(radius, 0.0, -1.0), radius, material_right));
+
+  let camera = Camera::new_param(90.0, aspect_ratio);
+
+  println!("P3\n{0} {1}\n255\n", image_width, image_height);
+
+  for j in (0..image_height).rev() {
+    eprintln!("\rScanlines remaining: {0} ", j);
+
+    for i in 0..image_width {
+      let mut pixel_color = Color::new(0.0, 0.0, 0.0);
+      for _s in 0..samples_per_pixel {
+        let u = (i as f64 + utils::random_double()) / (image_width - 1) as f64;
+        let v = (j as f64 + utils::random_double()) / (image_height - 1) as f64;
+        let r: Ray = camera.get_ray(u, v);
+        let depth: u32 = 50;
+        
+        pixel_color += utils::metal_ray_color(&r, &world, depth);
+      }
+      pixel_color.write_color_gamma_corrected(samples_per_pixel);
+    }
+  }
 }
