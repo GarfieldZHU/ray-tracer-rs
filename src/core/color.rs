@@ -1,6 +1,6 @@
 use std::ops::{Add, AddAssign, Mul};
 use super::vec3::Vec3;
-use crate::utils::utils::{clamp};
+use crate::utils::utils::{clamp, random_double, random_double_in_range};
 
 #[derive(Debug, Clone, Copy, Default, PartialEq)]
 pub struct Color {
@@ -37,6 +37,23 @@ impl Color {
     let b = (256.0 * clamp((self.b * scale).sqrt(), 0.0, 0.999)) as u32;
     println!("{0} {1} {2}", r, g, b);
 
+  }
+  
+  /**
+   * Static method to generate a random color
+   */
+  pub fn random() -> Self {
+    Self {
+      r: random_double(), g: random_double(), b: random_double(),
+    }
+  }
+
+  pub fn random_in_range(min: f64, max: f64) -> Self {
+    Self {
+      r: random_double_in_range(min, max), 
+      g: random_double_in_range(min, max), 
+      b: random_double_in_range(min, max),
+    }
   }
 }
 
@@ -99,6 +116,13 @@ impl AddAssign<Self> for Color {
     self.r += _rhs.r;
     self.g += _rhs.g;
     self.b += _rhs.b;
+  }
+}
+
+impl Mul<Self> for Color {
+  type Output = Color;
+  fn mul(self, _rhs: Color) -> Self::Output {
+    Color::new(self.r * _rhs.r, self.g * _rhs.g, self.b * _rhs.b)
   }
 }
 

@@ -11,7 +11,7 @@ pub use crate::geometry::{
   hit::HitRecord,
 };
 
-pub trait Material {
+pub trait Material: Send + Sync {
   fn scatter(&self, r_in: &Ray, record: &HitRecord) -> Option<ScatterRecord>;
 }
 

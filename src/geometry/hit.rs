@@ -33,7 +33,7 @@ impl<'m> HitRecord<'m> {
   }
 }
 
-pub trait Hittable {
+pub trait Hittable: Send + Sync {
   fn hit(&self, ray: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord>;
 }
 
@@ -61,7 +61,7 @@ impl HittableList {
     self.objects.push(object);
   }
 
-  pub fn add<H: Hittable + 'static>(&mut self, object: H) {
+  pub fn add<H: Hittable + 'static> (&mut self, object: H) {
     let object: Box<dyn Hittable> = Box::new(object);
     self.add_boxed(object);
   }

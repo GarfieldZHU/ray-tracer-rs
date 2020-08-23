@@ -24,5 +24,8 @@ fn main() {
   // samples::ray_to_scene_advance(samples::AdvanceSceneCase::RefractionScene)
 
   // Chapter 11: Move camera
-  samples::ray_to_scene_camera()
+  // samples::ray_to_scene_camera()
+
+  // Chapter 12: Final scene
+  samples::final_scene()
 }

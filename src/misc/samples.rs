@@ -1,3 +1,7 @@
+use std::sync::Arc;
+use std::sync::mpsc;
+use std::thread;
+use std::time;
 use crate::core::{
   vec3::Vec3,
   point3::Point3,
@@ -7,7 +11,7 @@ use crate::core::{
 };
 use crate::geometry::{
   sphere::Sphere,
-  hit::{ HittableList}
+  hit::{HittableList}
 };
 use crate::materials::{
   DefaultMaterial,
@@ -221,4 +225,105 @@ pub fn ray_to_scene_camera() {
       pixel_color.write_color_gamma_corrected(samples_per_pixel);
     }
   }
+}
+
+
+// Final scene
+pub fn final_scene() {
+  const N_THREAD: usize = 20;
+  let aspect_ratio = 3.0 / 2.0;
+  let image_width = 1200;
+  let image_height = (image_width as f64 / aspect_ratio) as u32;
+  let samples_per_pixel = 500;
+  let max_depth = 50;
+
+  let world = Arc::new(utils::random_scene());
+
+  let lookfrom = Point3::new(13.0, 2.0, 3.0);  // Camera poition for defocus cases
+  let lookat = Point3::new(0.0, 0.0, 0.0);
+  
+  let camera = Camera::new_with_lens(
+    lookfrom, 
+    lookat, 
+    Vec3::new(0.0, 1.0, 0.0), 
+    // 90.0,  // Wide angle lens
+    20.0,  // Long focal lens
+    aspect_ratio,
+    0.1,
+    10.0,
+  );
+
+  let timer = time::SystemTime::now();
+  println!("P3\n{0} {1}\n255\n", image_width, image_height);
+
+  // Add multiple thread for sampling
+  let (tx, rx) = mpsc::channel();
+  let mut children = vec![];
+  let thread_height = image_height / (N_THREAD as u32);
+
+  for t in 0..N_THREAD {
+    let thread_tx = tx.clone();
+    let thread_world = world.clone();
+    // Each thread do partial sampling value
+    children.push(thread::spawn(move || {
+      let now = time::SystemTime::now();
+      let mut colors = vec![vec![]];
+
+      for j in (0..thread_height).rev() {
+        let thread_j = j + (t as u32) * thread_height;
+        eprintln!("\rScan line: {0} ", thread_j);
+        let mut row_colors = vec![];
+    
+        for i in 0..image_width {
+          let mut pixel_color = Color::new(0.0, 0.0, 0.0);
+    
+          for _s in 0..samples_per_pixel  {
+            let u = (i as f64 + utils::random_double()) / (image_width - 1) as f64;
+            let v = (thread_j as f64 + utils::random_double()) / (image_height - 1) as f64;
+            // let r: Ray = camera.get_ray(u, v);  // No defocus blur 
+            let r: Ray = camera.get_ray_for_lens(u, v);  // With defocus blur
+            pixel_color += utils::metal_ray_color(&r, &thread_world, max_depth);
+          }
+          row_colors.push(pixel_color);
+        }
+        colors.push(row_colors);
+      }
+      match now.elapsed() {
+        Ok(elapsed) => {
+          println!("\rScan line {0} to {1} cost: {2}", 
+            {t as u32 * thread_height}, 
+            {(t+1) as u32 * thread_height - 1},  
+            elapsed.as_secs(),
+          );
+        }
+        Err(e) => {
+          println!("Error: {:?}", e);
+        }
+      }
+      thread_tx.send((t, colors)).unwrap();
+    }))
+  }
+
+  // Join point, waiting for all calculation results before continue.
+  for child in children {
+    child.join().expect("failed...");
+  }
+
+  println!("\r--- Rendering time: {0} s --- ", timer.elapsed().unwrap().as_secs());
+ 
+  // Output the image in order of PPM formt.
+  let mut res: Vec<Vec<Vec<Color>>> = vec![vec![vec![]]; N_THREAD];
+  for (_idx, (id, colors)) in rx.iter().enumerate().take(N_THREAD) {
+    res[id] = colors;
+  }
+
+  for i in 0..N_THREAD {
+    for rows in res[i].clone() {
+      for pixel in rows {
+        pixel.write_color_gamma_corrected(samples_per_pixel);
+      }
+    }
+  }
+
+  println!("\r--- Overall time cost: {0} s --- ", timer.elapsed().unwrap().as_secs());
 }

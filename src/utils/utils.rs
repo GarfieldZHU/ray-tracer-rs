@@ -12,7 +12,9 @@ use crate::geometry::{
 };
 use crate::materials::{
   DefaultMaterial,
-  // Material,
+  lambertian::Lambertian,
+  metal::Metal,
+  dielectric::Dielectric,
 };
 
 
@@ -111,6 +113,61 @@ pub fn schlick(cosine: f64, ref_idx: f64) -> f64 {
   let r0 = r * r;
   r0 + (1.0 - r0) * (1.0 - cosine).powi(5)
 }
+
+/**
+ * Generate a random scene to be rendered
+ * */
+pub fn random_scene() -> HittableList {
+  let mut world = HittableList::new();
+  // Add ground
+  let material_ground = Lambertian { albedo: Color::new(0.5, 0.5, 0.5) };
+  world.add(Sphere::new(Point3::new(0.0, -1000.0, 0.0), 1000.0, material_ground));
+  
+  // Randomly add some spheres
+  for a in -11..11 {
+    for b in -11..11 {
+      let choose_mat = random_double();
+      // Vertical position is fixed (they are all on the ground)
+      let center = Point3::new(
+        a as f64 + 0.9 * random_double(), 
+        0.2, 
+        b as f64 + 0.9 * random_double()
+      );
+
+      if (center - Point3::new(4.0, 0.2, 0.0)).length() > 0.9 {
+        if choose_mat < 0.8 {
+          // Use diffuse
+          let albedo = Color::random() * Color::random();
+          let sphere_material = Lambertian { albedo };
+          world.add(Sphere::new(center, 0.2, sphere_material))
+        } else if choose_mat < 0.95 {
+          // metal 
+          let albedo = Color::random_in_range(0.5, 1.0);
+          let fuzz = random_double_in_range(0.0, 0.5);
+          let sphere_material = Metal::new(albedo, fuzz);
+          world.add(Sphere::new(center, 0.2, sphere_material))
+        } else {
+          // glass
+          let sphere_material = Dielectric::new(1.5);
+          world.add(Sphere::new(center, 0.2, sphere_material))
+        }
+      }
+    }
+  }
+
+  // Add three fixed objects
+  let material1 = Dielectric::new(1.5);
+  world.add(Sphere::new(Point3::new(0.0, 1.0, 0.0), 1.0, material1));
+  
+  let material2 = Lambertian { albedo: Color::new(0.4, 0.2, 0.1) };
+  world.add(Sphere::new(Point3::new(-4.0, 1.0, 0.0), 1.0, material2));
+  
+  let material3 = Metal::new(Color::new(0.7, 0.6, 0.5), 0.0);
+  world.add(Sphere::new(Point3::new(4.0, 1.0, 0.0), 1.0, material3));
+
+  world
+}
+
 
 #[cfg(test)]
 mod test {
