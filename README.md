@@ -30,7 +30,7 @@ A simple ray tracer implemented in Rust, followed [Ray Tracing in One Weekend](h
 
 #### Latest sample
 
-![sample](./image_sample/ZoomInCamera.png)
+![sample](./image_sample/finalScene.png)
 
 #### [In one weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 - [x] Output image
@@ -43,9 +43,11 @@ A simple ray tracer implemented in Rust, followed [Ray Tracing in One Weekend](h
 - [x] Dielectrics
 - [x] Move camera
 - [x] Defocus blur
-- [ ] Final scene
+- [x] Final scene
 
 #### [The next week](https://raytracing.github.io/books/RayTracingTheNextWeek.html)
+
+// TODO
 
 #### [The Rest of Life](https://raytracing.github.io/books/RayTracingTheRestOfYourLife.html)
 

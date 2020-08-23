@@ -230,7 +230,7 @@ pub fn ray_to_scene_camera() {
 
 // Final scene
 pub fn final_scene() {
-  const N_THREAD: usize = 10;  // Concurrent thread amount
+  const N_THREAD: usize = 20;  // Concurrent thread amount
   let aspect_ratio = 3.0 / 2.0;
   let image_width = 1200;
   let image_height = (image_width as f64 / aspect_ratio) as u32;
@@ -239,8 +239,8 @@ pub fn final_scene() {
 
   let world = Arc::new(utils::random_scene());
 
-  let lookfrom = Point3::new(13.0, 2.0, 3.0);  // Camera poition for defocus cases
-  let lookat = Point3::new(0.0, 0.0, 0.0);
+  let lookfrom = Point3::new(12.0, 4.0, 2.0);  // Camera poition for defocus cases
+  let lookat = Point3::new(-2.0, 0.0, 0.0);
   
   let camera = Camera::new_with_lens(
     lookfrom, 
@@ -266,10 +266,10 @@ pub fn final_scene() {
     let thread_world = world.clone();
     // Each thread do partial sampling value
     children.push(thread::spawn(move || {
-      let now = time::SystemTime::now();
       let mut colors = vec![vec![]];
 
       for j in (0..thread_height).rev() {
+        let now = time::SystemTime::now();
         let thread_j = j + (t as u32) * thread_height;
         eprintln!("\rScan line: {0} ", thread_j);
         let mut row_colors = vec![];
@@ -287,17 +287,16 @@ pub fn final_scene() {
           row_colors.push(pixel_color);
         }
         colors.push(row_colors);
-      }
-      match now.elapsed() {
-        Ok(elapsed) => {
-          println!("\rScan line {0} to {1} cost: {2}", 
-            {t as u32 * thread_height}, 
-            {(t+1) as u32 * thread_height - 1},  
-            elapsed.as_secs(),
-          );
-        }
-        Err(e) => {
-          println!("Error: {:?}", e);
+        match now.elapsed() {
+          Ok(elapsed) => {
+            eprintln!("\rScan line {0} cost: {1}", 
+              thread_j,  
+              elapsed.as_secs(),
+            );
+          }
+          Err(e) => {
+            eprintln!("Error: {:?}", e);
+          }
         }
       }
       thread_tx.send((t, colors)).unwrap();
@@ -309,7 +308,7 @@ pub fn final_scene() {
     child.join().expect("failed...");
   }
 
-  println!("\r--- Rendering time: {0} s --- ", timer.elapsed().unwrap().as_secs());
+  eprintln!("\r--- Rendering time: {0} s --- ", timer.elapsed().unwrap().as_secs());
  
   // Output the image in order of PPM formt.
   let mut res: Vec<Vec<Vec<Color>>> = vec![vec![vec![]]; N_THREAD];
@@ -325,5 +324,5 @@ pub fn final_scene() {
     }
   }
 
-  println!("\r--- Overall time cost: {0} s --- ", timer.elapsed().unwrap().as_secs());
+  eprintln!("\r--- Overall time cost: {0} s --- ", timer.elapsed().unwrap().as_secs());
 }
