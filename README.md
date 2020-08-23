@@ -37,7 +37,9 @@ A simple ray tracer implemented in Rust, followed [Ray Tracing in One Weekend](h
 - [x] Surface material
 - [x] Metal sphere
 - [x] Dielectrics
-- [ ] Move camera
+- [x] Move camera
+- [ ] Defocus blur
+- [ ] Final scene
 
 #### [The next week](https://raytracing.github.io/books/RayTracingTheNextWeek.html)
 
