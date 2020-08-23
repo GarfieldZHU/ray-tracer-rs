@@ -186,13 +186,20 @@ pub fn ray_to_scene_camera() {
   world.add(Sphere::new(Point3::new(-1.0, 0.0, -1.0), 0.5, material_left));
   world.add(Sphere::new(Point3::new(-1.0, 0.0, -1.0), -0.45, material_left));
   world.add(Sphere::new(Point3::new( 1.0, 0.0, -1.0), 0.5, material_right));
-  let camera = Camera::new_free_camera(
-    Point3::new(-2.0, 2.0, 1.0), 
-    Point3::new(0.0, 0.0, -1.0), 
+  
+  // let lookfrom = Point3::new(-2.0, 2.0, 1.0);  // Camera poition for zoom cases
+  let lookfrom = Point3::new(3.0, 3.0, 2.0);  // Camera poition for defocus cases
+  let lookat = Point3::new(0.0, 0.0, -1.0);
+  
+  let camera = Camera::new_with_lens(
+    lookfrom, 
+    lookat, 
     Vec3::new(0.0, 1.0, 0.0), 
     // 90.0,  // Wide angle lens
     20.0,  // Long focal lens
-    aspect_ratio
+    aspect_ratio,
+    2.0,
+    (lookfrom-lookat).length(),
   );
 
   println!("P3\n{0} {1}\n255\n", image_width, image_height);
@@ -205,7 +212,8 @@ pub fn ray_to_scene_camera() {
       for _s in 0..samples_per_pixel {
         let u = (i as f64 + utils::random_double()) / (image_width - 1) as f64;
         let v = (j as f64 + utils::random_double()) / (image_height - 1) as f64;
-        let r: Ray = camera.get_ray(u, v);
+        // let r: Ray = camera.get_ray(u, v);  // No defocus blur 
+        let r: Ray = camera.get_ray_for_lens(u, v);  // With defocus blur
         let depth: u32 = 50;
         
         pixel_color += utils::metal_ray_color(&r, &world, depth);
