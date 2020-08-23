@@ -121,6 +121,24 @@ impl Vec3 {
     let r_out_parallel: Vec3 = -(1.0 - r_out_perp.length_square()).abs().sqrt() * n;
     r_out_perp + r_out_parallel
   }
+
+  /**
+   * Generate a random vector in unit disk.
+   * */
+  pub fn random_in_unit_disk() -> Self {
+    let mut if_found = false;
+    let mut p = Vec3::new(0.0, 0.0, 0.0);
+    while !if_found {
+      p = Vec3::new(
+        random_double_in_range(-1.0, 1.0), 
+        random_double_in_range(-1.0, 1.0), 
+        0.0);
+      if p.length_square() < 1.0 {
+        if_found= true;
+      }
+    }
+    p
+  }
 }
 
 impl Add for Vec3 {
