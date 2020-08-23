@@ -30,7 +30,13 @@ A simple ray tracer implemented in Rust, followed [Ray Tracing in One Weekend](h
 
 #### Latest sample
 
+-Preview
+
 ![sample](./image_sample/finalScene.png)
+
+- High resolution
+
+![sample_high-res](./image_sample/final_high-res.png)
 
 #### [In one weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 - [x] Output image
