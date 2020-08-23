@@ -43,7 +43,31 @@ impl Camera {
     Self { origin, ll, horizontal, vertical }
   }
 
-  pub fn get_ray(self, u: f64, v: f64) -> Ray {
-    Ray::new(self.origin, self.ll + u * self.horizontal + v * self.vertical - self.origin)
+  pub fn new_free_camera(
+    lookfrom: Point3,
+    lookat: Point3,
+    vup: Vec3,
+    vfov: f64, 
+    aspect_ratio: f64,
+  ) -> Self {
+    let theta = degrees_to_radians(vfov);
+    let h = (theta / 2.0).tan();
+    let viewport_height = 2.0 * h;
+    let viewport_width = aspect_ratio * viewport_height;
+
+    let w = (lookfrom - lookat).unit();
+    let u = Vec3::cross(&vup, &w).unit();
+    let v = Vec3::cross(&w, &u);
+
+    let origin = lookfrom;
+    let horizontal = viewport_width * u;
+    let vertical = viewport_height * v;
+    let ll = origin - horizontal/2 - vertical/2 - w;
+
+    Self { origin, ll, horizontal, vertical }
+  }
+
+  pub fn get_ray(self, s: f64, t: f64) -> Ray {
+    Ray::new(self.origin, self.ll + s * self.horizontal + t * self.vertical - self.origin)
   }
 }
