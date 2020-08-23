@@ -231,10 +231,10 @@ pub fn ray_to_scene_camera() {
 // Final scene
 pub fn final_scene() {
   const N_THREAD: usize = 10;  // Concurrent thread amount
-  let aspect_ratio = 16.0 / 9.0;
-  let image_width = 384;
+  let aspect_ratio = 3.0 / 2.0;
+  let image_width = 1200;
   let image_height = (image_width as f64 / aspect_ratio) as u32;
-  let samples_per_pixel = 50;
+  let samples_per_pixel = 500;
   let max_depth = 50;
 
   let world = Arc::new(utils::random_scene());
