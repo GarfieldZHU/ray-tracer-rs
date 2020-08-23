@@ -28,6 +28,10 @@ A simple ray tracer implemented in Rust, followed [Ray Tracing in One Weekend](h
 
 ## Progress
 
+#### Latest sample
+
+![sample](./image_sample/ZoomInCamera.png)
+
 #### [In one weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 - [x] Output image
 - [x] Ray and camera
