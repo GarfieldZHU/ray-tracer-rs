@@ -239,7 +239,7 @@ pub fn final_scene() {
 
   let world = Arc::new(utils::random_scene());
 
-  let lookfrom = Point3::new(12.0, 4.0, 2.0);  // Camera poition for defocus cases
+  let lookfrom = Point3::new(5.0, 2.0, 1.0);  // Camera poition for defocus cases
   let lookat = Point3::new(-2.0, 0.0, 0.0);
   
   let camera = Camera::new_with_lens(
@@ -271,7 +271,7 @@ pub fn final_scene() {
       for j in (0..thread_height).rev() {
         let now = time::SystemTime::now();
         let thread_j = j + (t as u32) * thread_height;
-        eprintln!("\rScan line: {0} ", thread_j);
+        eprintln!("\rScanning line: {0} ", thread_j);
         let mut row_colors = vec![];
     
         for i in 0..image_width {
@@ -289,7 +289,7 @@ pub fn final_scene() {
         colors.push(row_colors);
         match now.elapsed() {
           Ok(elapsed) => {
-            eprintln!("\rScan line {0} cost: {1}", 
+            eprintln!("\rScan line {0} cost: {1} s.", 
               thread_j,  
               elapsed.as_secs(),
             );
