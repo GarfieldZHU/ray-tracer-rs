@@ -30,7 +30,7 @@ A simple ray tracer implemented in Rust, followed [Ray Tracing in One Weekend](h
 
 #### Latest sample
 
--Preview
+- Preview
 
 ![sample](./image_sample/finalScene.png)
 
