@@ -5,6 +5,7 @@ use super::point3::Point3;
 pub struct Ray {
   pub origin: Point3,
   pub direction: Vec3, 
+  pub time: f64,
 }
 
 impl Ray {
@@ -12,6 +13,15 @@ impl Ray {
     Self {
       origin,
       direction,
+      time: 0.0,
+    }
+  }
+
+  pub const fn new_with_time(origin: Point3, direction: Vec3, time: f64) -> Self {
+    Self {
+      origin,
+      direction,
+      time,
     }
   }
 
