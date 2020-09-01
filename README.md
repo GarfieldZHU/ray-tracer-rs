@@ -36,7 +36,7 @@ A simple ray tracer implemented in Rust, followed [Ray Tracing in One Weekend](h
 
 - High resolution
 
-![sample_high-res](./image_sample/final_high-res.png)
+![sample_high-res](./image_sample/final_scene_high_resolution.png)
 
 #### [In one weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 - [x] Output image
