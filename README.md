@@ -30,7 +30,13 @@ A simple ray tracer implemented in Rust, followed [Ray Tracing in One Weekend](h
 
 #### Latest sample
 
+- Preview
+
 ![sample](./image_sample/finalScene.png)
+
+- High resolution
+
+![sample_high-res](./image_sample/final_scene_high_resolution.png)
 
 #### [In one weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
 - [x] Output image
@@ -45,9 +51,10 @@ A simple ray tracer implemented in Rust, followed [Ray Tracing in One Weekend](h
 - [x] Defocus blur
 - [x] Final scene
 
-#### [The next week](https://raytracing.github.io/books/RayTracingTheNextWeek.html)
+#### [The next week](https://raytracing.github.io/books/RayTracingTheNextWeek.html)  
 
-// TODO
+- [ ] Motion Blur  <- In progress
+- [ ] Bounding Volume Hierarchies
 
 #### [The Rest of Life](https://raytracing.github.io/books/RayTracingTheRestOfYourLife.html)
 
